@@ -1,0 +1,17 @@
+div, p {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  background: transparent;
+}
+
+
+.row {
+  display: flex;
+}
+
+.tile {
+  width: 25px;
+  height: 25px;
+}
