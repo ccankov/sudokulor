@@ -1,7 +1,44 @@
 export class Tile {
-  constructor(value) {
+  constructor(value, board, pos) {
     this.value = value;
+    this.board = board;
+    this.pos = pos;
     this.given = value === 0 ? false : true;
+  }
+
+  myRow() {
+    return this.board.rows()[this.pos[0]];
+  }
+
+  myCol() {
+    return this.board.columns()[this.pos[1]];
+  }
+
+  mySqr() {
+    let colOffset = Math.floor(this.pos[1] / 3);
+    switch (Math.floor(this.pos[0] / 3)) {
+      case 0:
+        return this.board.square(colOffset);
+      case 1:
+        return this.board.square(3 + colOffset);
+      case 2:
+        return this.board.square(6 + colOffset);
+    }
+  }
+
+  possibleVals() {
+    let valArr = [];
+
+    for (let i = 1; i <= 9; i++) {
+      let inRow = this.myRow().map((tile) => tile.value).includes(i);
+      let inCol = this.myCol().map((tile) => tile.value).includes(i);
+      let inSqr = this.mySqr().map((tile) => tile.value).includes(i);
+      if (!inRow && !inCol && !inSqr) {
+        valArr.push(i);
+      }
+    }
+
+    return valArr;
   }
 
   isGiven() {
@@ -16,29 +53,39 @@ export class Tile {
 export class Board {
   constructor() {
     this.grid = [];
-    this.perfection405();
+    this.generateBoard();
   }
 
   perfection405() {
-    this.grid = [
-      [new Tile(1), new Tile(2), new Tile(3), new Tile(4), new Tile(5), new Tile(6), new Tile(7), new Tile(8), new Tile(9)],
-      [new Tile(4), new Tile(5), new Tile(6), new Tile(7), new Tile(8), new Tile(9), new Tile(1), new Tile(2), new Tile(3)],
-      [new Tile(7), new Tile(8), new Tile(9), new Tile(1), new Tile(2), new Tile(3), new Tile(4), new Tile(5), new Tile(6)],
-      [new Tile(3), new Tile(1), new Tile(2), new Tile(6), new Tile(4), new Tile(5), new Tile(9), new Tile(7), new Tile(8)],
-      [new Tile(6), new Tile(4), new Tile(5), new Tile(9), new Tile(7), new Tile(8), new Tile(3), new Tile(1), new Tile(2)],
-      [new Tile(9), new Tile(7), new Tile(8), new Tile(3), new Tile(1), new Tile(2), new Tile(6), new Tile(4), new Tile(5)],
-      [new Tile(2), new Tile(3), new Tile(1), new Tile(5), new Tile(6), new Tile(4), new Tile(8), new Tile(9), new Tile(7)],
-      [new Tile(5), new Tile(6), new Tile(4), new Tile(8), new Tile(9), new Tile(7), new Tile(2), new Tile(3), new Tile(1)],
-      [new Tile(8), new Tile(9), new Tile(7), new Tile(2), new Tile(3), new Tile(1), new Tile(5), new Tile(6), new Tile(4)]
+    return [
+      [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [4, 5, 6, 7, 8, 9, 1, 2, 3],
+      [7, 8, 9, 1, 2, 3, 4, 5, 6],
+      [3, 1, 2, 6, 4, 5, 9, 7, 8],
+      [6, 4, 5, 9, 7, 8, 3, 1, 2],
+      [9, 7, 8, 3, 1, 2, 6, 4, 5],
+      [2, 3, 1, 5, 6, 4, 8, 9, 7],
+      [5, 6, 4, 8, 9, 7, 2, 3, 1],
+      [8, 9, 7, 2, 3, 1, 5, 6, 4]
     ];
   }
 
-  generateBoard() {
-    for (let i = 0; i < 9; i++) {
-      this.grid.push([]);
-      for (let j = 0; j < 9; j++) {
-        const tile = new Tile(0);
-        this.grid[i].push(tile);
+  generateBoard(valGrid = []) {
+    if (valGrid.length !== 0) {
+      for (let i = 0; i < valGrid.length; i++) {
+        this.grid.push([]);
+        for (let j = 0; j < valGrid[i].length; j++) {
+          const tile = new Tile(valGrid[i][j], this, [i, j]);
+          this.grid[i].push(tile);
+        }
+      }
+    } else {
+      for (let i = 0; i < 9; i++) {
+        this.grid.push([]);
+        for (let j = 0; j < 9; j++) {
+          const tile = new Tile(0, this, [i, j]);
+          this.grid[i].push(tile);
+        }
       }
     }
   }

@@ -1,5 +1,6 @@
 body {
   background: gainsboro;
+  padding: 15px;
 }
 
 .board {
@@ -18,10 +19,10 @@ body {
 
 .tile {
   position: relative;
-  width: 10%;
+  width: 11%;
   padding-bottom: 10%;
+  margin: 4px;
   border-radius: 4px;
-  margin: 5px;
   /*-webkit-box-shadow: 2px 2px 2px 3px #ccc;*/
   /*-moz-box-shadow:    2px 2px 2px 3px #ccc;*/
   /*box-shadow:         2px 2px 2px 3px #ccc;*/
@@ -30,9 +31,25 @@ body {
   box-shadow:         inset 0 0 10px black;
 }
 
+.mini {
+  flex: 0 27%;
+  height: 27%;
+  position: relative;
+  border-radius: 4px;
+  margin: 1px;
+  -moz-box-shadow:    inset 0 0 10px black;
+  -webkit-box-shadow: inset 0 0 10px black;
+  box-shadow:         inset 0 0 10px black;
+}
+
+.mini:hover {
+  cursor: pointer;
+  top: 1px;
+}
+
 .tile:hover {
   cursor: pointer;
-  top: -4px;
+  top: 3px;
 }
 
 .tile input {
@@ -43,4 +60,23 @@ body {
 
 .tile input:hover {
   cursor: pointer;
+}
+
+.value-0 {
+  box-shadow: none;
+}
+
+.value-0:hover {
+  top: 0;
+  cursor: default;
+}
+
+.absolute_container {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: default;
+  justify-content: center;
+  align-content: center;
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
 }

@@ -17,6 +17,7 @@ class Game extends React.Component {
     let numVal = parseInt(value);
     if (numVal >= 0 && numVal <= 9) {
       tile.value = numVal;
+      tile.given = true;
     }
     this.setState({
       board: this.state.board
