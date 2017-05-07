@@ -3,31 +3,22 @@ import React from 'react';
 class Tile extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    if (!this.props.tile.explored) {
-      if (e.altKey) {
-        this.props.updateGame(this.props.tile, false);
-      } else {
-        this.props.updateGame(this.props.tile, true);
-      }
-    }
+  handleInput(e) {
+    let val = e.currentTarget.value;
+    this.props.updateGame(this.props.tile, val);
   }
 
   render() {
-    let symbol;
-    if (this.props.tile.explored) {
-      symbol = this.props.tile.bombed ? "X" : this.props.tile.adjacentBombCount() ;
-    } else if (this.props.tile.flagged) {
-      symbol = "*";
-    } else {
-      symbol = " ";
-    }
+    let className = `tile value-${this.props.tile.value}`;
     return (
-      <button className="tile" onClick={this.handleClick}>{symbol}</button>
+      <div className={className}>
+        <input type="text"
+               onChange={this.handleInput}
+               value={this.props.tile.value}></input>
+      </div>
     );
   }
 }

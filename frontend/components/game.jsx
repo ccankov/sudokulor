@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Minesweeper from '../minesweeper';
+import * as Sudoku from '../sudoku';
 import Board from './board';
 
 class Game extends React.Component {
@@ -7,17 +7,16 @@ class Game extends React.Component {
     super();
 
     this.state = {
-      board: new Minesweeper.Board(10, 5)
+      board: new Sudoku.Board()
     };
 
     this.updateGame = this.updateGame.bind(this);
   }
 
-  updateGame(tile, reveal) {
-    if (reveal) {
-      tile.explore();
-    } else {
-      tile.toggleFlag();
+  updateGame(tile, value) {
+    let numVal = parseInt(value);
+    if (numVal >= 0 && numVal <= 9) {
+      tile.value = numVal;
     }
     this.setState({
       board: this.state.board
@@ -25,16 +24,9 @@ class Game extends React.Component {
   }
 
   render() {
-    let gameStatus = '';
-    if (this.state.board.lost()) {
-      gameStatus = 'You lose!';
-    } else if (this.state.board.won()) {
-      gameStatus = 'You win!';
-    }
     return (
       <div>
         <Board board={this.state.board} updateGame={this.updateGame} />
-        <h1>{gameStatus}</h1>
       </div>
     );
   }

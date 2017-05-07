@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as Minesweeper from './minesweeper';
 import Game from './components/game';
 
 
