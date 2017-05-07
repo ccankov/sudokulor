@@ -56,6 +56,19 @@ export class Board {
     this.generateBoard();
   }
 
+  perfectionSquare(idx) {
+    let perfection = this.perfection405();
+    let square = [];
+    let x = Math.floor(idx / 3) * 3;
+    let y = (idx % 3) * 3;
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        square.push(perfection[x + i][y + j]);
+      }
+    }
+    return square;
+  }
+
   perfection405() {
     return [
       [1, 2, 3, 4, 5, 6, 7, 8, 9],
