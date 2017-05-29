@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: './frontend/sudokulor.jsx',
+  entry: './lib/sudokulor.jsx',
   output: {
     filename: './bundle.js',
   },
