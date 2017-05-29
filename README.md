@@ -22,28 +22,32 @@ In addition, this project will include:
 
 ### Wireframes
 
-This app will consist of a single screen with game board, game controls, and nav links to the Github, my LinkedIn,
-and the About modal.  Game controls will include Start, Stop, and Reset buttons as well as a slider to control the speed.  On the left, three clickable shapes will be used to toggle between the types of grids available.  On the right, there will be three (or more) clickable gradient-filled rectangles used to toggle between color schemes (see Bonus Features).  Additionally, a drop-down will be added to the Controls to toggle between different rule sets (again, see Bonus Features).
+This app will consist of a single screen with the interactive game board, score display, options and nav links to the Github, my LinkedIn,
+and the About modal.  The game board itself will have colored tiles with some space between them. There will be visual indicators of the 3x3 squares that are required by the Sudoku rules. Tiles that have not been assigned a color will instead be a 3x3 grid of "mini-tiles" which the user can click to assign a color to the larger tile that is part of the Sudoku grid.
+
+The score will be shown above or below the game board. I also want to show a count of how many times each color pairing occurs. A pairing is defined as two colors being adjacent, meaning each tile can contribute to 4 different pairings.
+
+The settings and instructions will be in a modal that is only visible when the user clicks on the settings button.
 
 ![wireframes](images/js_wireframe.jpeg)
 
 ### Architecture and Technologies
 
-**NB**: one of the main things you should be researching and deciding upon while you write this proposal is what technologies you plan to use.  Identify and create a plan of attack for the major technical challenges in your project.  It's okay if you don't have all the details of implementation fleshed out, but you should have a solid roadmap by Monday morning.
+The underlying game logic will be implemented using vanilla JavaScript by following an object-oriented design pattern. For the board elements and user interaction, there is a wide range of technologies I could use:
 
-This project will be implemented with the following technologies:
+- `React.js` would give a very simple and highly performant implementation of the UI
+- The UI could also easily be implemented with `jQuery` or even just vanilla DOM manipulations
+- Since the UI is relatively simple, I also have the unique opportunity to explore a new frontend framework like AngularJS or Vue.js
 
-- Vanilla JavaScript and `jquery` for overall structure and game logic,
-- `Easel.js` with `HTML5 Canvas` for DOM manipulation and rendering,
-- Webpack to bundle and serve up the various scripts.
+I will make a final decision on what to use for the UI after a discussion with the career coaches.
 
 In addition to the webpack entry file, there will be three scripts involved in this project:
 
-`board.js`: this script will handle the logic for creating and updating the necessary `Easel.js` elements and rendering them to the DOM.
+`board.js`: this script will handle the logic for keeping track of the entire Sudoku grid including the score and the state of the game (won, incomplete, no valid Sudoku left).
 
-`automata.js`: this script will handle the logic behind the scenes.  An Automata object will hold a `type` (hexagon, triangle, or square) and a 2D array of `Cell`s.  It will be responsible for doing neighbor checks for each `Cell` upon iteration and updating the `Cell` array appropriately.
+`tile.js`: this script will handle the logic for each tile. It will track whether its value has been specified, what that value is, and have methods to calculate its possible values when given the entire board.
 
-`cell.js`: this lightweight script will house the constructor and update functions for the `Cell` objects.  Each `Cell` will contain a `type` (hexagon, triangle, or square) and an `aliveState` (`true` or `false`).
+`palette.js`: this script will be used to dynamically update styles with user-defined color palettes.
 
 ### Implementation Timeline
 
