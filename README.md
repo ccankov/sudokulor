@@ -29,7 +29,7 @@ The score will be shown above or below the game board. I also want to show a cou
 
 The settings and instructions will be in a modal that is only visible when the user clicks on the settings button.
 
-![wireframes](images/js_wireframe.jpeg)
+![wireframes](docs/wireframes)
 
 ### Architecture and Technologies
 
