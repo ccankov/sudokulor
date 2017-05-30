@@ -3,7 +3,8 @@ var path = require('path');
 module.exports = {
   entry: './lib/sudokulor.jsx',
   output: {
-    filename: './bundle.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    filename: 'bundle.js',
   },
   module: {
     loaders: [
