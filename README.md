@@ -4,7 +4,7 @@
 
 Sudokulor is a unique take on the classic game Sudoku. While still following the traditional Sudoku rules, Sudokulor boards begin completely empty and the tiles use 9 different colors instead of using numbers.
 
-The objective of Sudokulor is to complete a valid Sudoku by populating all tiles, but the player is given a higher score for consistently placing blocks of identical colors next to each other. The end result is a highly artisic game that incentivizes creating unique and beautiful patterns of colored tiles.
+The objective of Sudokulor is to complete a valid Sudoku by populating all tiles, but the player is given a higher score based on the number of adjacent color pairs. The end result is a highly artistic game that incentivizes creating unique and beautiful patterns of colored tiles.
 
 ### Functionality & MVP  
 

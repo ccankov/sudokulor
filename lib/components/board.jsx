@@ -13,6 +13,8 @@ class Board extends React.Component {
           <Tile tile={tile} updateGame={this.props.updateGame} key={j} />
         );
       });
+      tiles.splice(6, 0, <div key={10} className="vertical-line"></div>);
+      tiles.splice(3, 0, <div key={11} className="vertical-line"></div>);
       return (
         <div className="row" key={i}>
           {tiles}
