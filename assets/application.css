@@ -1,12 +1,29 @@
 body {
-  background: gainsboro;
-  padding: 1%;
+  background: #e2e2e2;
+}
+
+nav {
+  height: 60px;
+  background-color: #F9423A;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  border-bottom: 4px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-family: 'Iceland', cursive;
+  color: white;
+  font-size: 2.2em;
+  text-transform: uppercase;
 }
 
 .board {
-  width: 100%;
+  padding: 1%;
+  width: 90%;
   min-width: 325px;
-  max-width: 850px;
+  max-width: 800px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -41,9 +58,12 @@ body {
   padding-bottom: 10%;
   margin: 0.2%;
   border-radius: 5%;
-  -moz-box-shadow:    inset 0 0 8px black;
-  -webkit-box-shadow: inset 0 0 8px black;
-  box-shadow:         inset 0 0 8px black;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  border: 1px solid black;
+  box-sizing: border-box;
 }
 
 .vertical-line {
@@ -59,19 +79,27 @@ body {
   position: relative;
   border-radius: 20%;
   margin: 2%;
-  -moz-box-shadow:    inset 0 0 5px black;
-  -webkit-box-shadow: inset 0 0 5px black;
-  box-shadow:         inset 0 0 5px black;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.invalid {
+  transform: translate(0px, 100%) rotate(120deg);
+  opacity: 0;
 }
 
 .mini:hover {
   cursor: pointer;
-  top: 1px;
+  box-shadow: 0 0 8px rgba(30, 2, 63, 0.8);
 }
 
 .tile:hover {
   cursor: pointer;
-  top: 2px;
+  box-shadow: 0 0 8px rgba(30, 2, 63, 0.8);
 }
 
 .tile input {
@@ -86,11 +114,13 @@ body {
 
 .value-0 {
   box-shadow: none;
+  border: 1px solid transparent;
 }
 
 .value-0:hover {
   top: 0;
   cursor: default;
+  box-shadow: none;
 }
 
 .absolute_container {
@@ -101,4 +131,36 @@ body {
   align-content: center;
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;
+  overflow: visible;
+}
+
+.fixed {
+  opacity: 0.6;
+}
+
+.fixed:hover {
+  cursor: default;
+  box-shadow: none;
+}
+
+.help-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
+  background-color: #F9423A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 2em;
+  font-family: 'Iceland', cursive;
+}
+
+.help-button:hover {
+  cursor: pointer;
 }
