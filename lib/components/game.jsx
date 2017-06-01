@@ -8,7 +8,7 @@ class Game extends React.Component {
     super();
 
     this.state = {
-      board: new SudokuBoard()
+      board: new SudokuBoard('normal', 'easy')
     };
 
     this.updateGame = this.updateGame.bind(this);
