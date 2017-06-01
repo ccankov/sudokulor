@@ -19,6 +19,27 @@ h1 {
   text-transform: uppercase;
 }
 
+.optionsMenu {
+  position: absolute;
+  top: -350px;
+  left: -250px;
+  background-color: white;
+  width: 200px;
+  height: 0px;
+  margin-top: 400px;
+  visibility: hidden;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.shown {
+  margin-top: 0px;
+  height: 400px;
+  visibility: visible;
+}
+
 .board {
   padding: 1%;
   width: 90%;
@@ -135,7 +156,7 @@ h1 {
 }
 
 .fixed {
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .fixed:hover {

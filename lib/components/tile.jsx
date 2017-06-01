@@ -79,7 +79,13 @@ class Tile extends React.Component {
           </div>
         </div>
       );
-    } else {
+    } else if (this.props.fixed) {
+      className += ' fixed';
+      return (
+        <div className={className} ></div>
+      );
+    }
+    else {
       return (
         <div className={className} onClick={this.clearTile}></div>
       );

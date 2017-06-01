@@ -2,16 +2,30 @@ import React from 'react';
 import SudokuBoard from '../board';
 import Board from './board';
 import NavHeader from './navheader';
+import Menu from './menu';
 
 class Game extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      board: new SudokuBoard('normal', 'easy')
+      difficulty: 'medium',
+      board: new SudokuBoard('normal', 'medium'),
+      showMenu: false
     };
 
     this.updateGame = this.updateGame.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
+    this.changeDifficulty = this.changeDifficulty.bind(this);
+  }
+
+  toggleMenu() {
+    let currentState = this.state.showMenu;
+    this.setState({ showMenu: !currentState });
+  }
+
+  changeDifficulty(difficulty) {
+    this.setState({ difficulty, board: new SudokuBoard('normal', difficulty) });
   }
 
   updateGame(tile, value) {
@@ -30,8 +44,12 @@ class Game extends React.Component {
       <div>
         <NavHeader />
         <Board board={this.state.board} updateGame={this.updateGame} />
-        <div className="help-button">
-          ?
+        <div className="help-button"
+             onClick={ this.toggleMenu }>
+             ?
+          <Menu show={ this.state.showMenu }
+                changeDifficulty= { this.changeDifficulty }
+                difficulty={ this.state.difficulty }/>
         </div>
       </div>
     );
