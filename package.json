@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "webpack": "webpack --watch",
+    "postinstall": "webpack",
     "start": "node server.js",
     "dev-start": "webpack-dev-server --inline",
     "test": "echo \"Error: no test specified\" && exit 1"
