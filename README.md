@@ -39,8 +39,6 @@ The underlying game logic will be implemented using vanilla JavaScript by follow
 - The UI could also easily be implemented with `jQuery` or even just vanilla DOM manipulations
 - Since the UI is relatively simple, I also have the unique opportunity to explore a new frontend framework like AngularJS or Vue.js
 
-I will make a final decision on what to use for the UI after a discussion with the career coaches.
-
 In addition to the webpack entry file, there will be three scripts involved in this project:
 
 `board.js`: this script will handle the logic for keeping track of the entire Sudoku grid including the score and the state of the game (won, incomplete, no valid Sudoku left).
