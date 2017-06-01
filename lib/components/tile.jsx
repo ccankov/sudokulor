@@ -47,7 +47,7 @@ class Tile extends React.Component {
   generateMiniTiles() {
     let tile = this.props.tile;
     let vals = tile.possibleVals();
-    let perfectionOrder = this.determineMiniOrder('normal');
+    let perfectionOrder = this.determineMiniOrder(this.props.mode);
     let miniTiles = [];
     for (let i = 0; i < perfectionOrder.length; i++) {
       let className = `mini value-${perfectionOrder[i]}`;

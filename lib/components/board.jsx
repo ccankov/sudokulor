@@ -4,10 +4,6 @@ import Tile from './tile';
 class Board extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      originalGrid: props.board.grid.map(row => row.map(tile => tile.value))
-    };
   }
 
   render() {
@@ -15,13 +11,15 @@ class Board extends React.Component {
       let tiles = row.map((tile, j) => {
         let fixed = false;
         let tilePos = tile.pos;
-        let originalGrid = this.state.originalGrid;
+        let originalGrid = this.props.fixedTiles;
         if (tile.value === originalGrid[tilePos[0]][tilePos[1]] &&
             tile.value !== 0) {
           fixed = true;
         }
         return (
-          <Tile tile={tile} fixed={fixed}
+          <Tile tile={tile}
+                mode={this.props.mode}
+                fixed={fixed}
                 updateGame={this.props.updateGame} key={j} />
         );
       });
