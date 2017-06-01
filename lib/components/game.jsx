@@ -1,13 +1,14 @@
 import React from 'react';
-import * as Sudoku from '../sudoku';
+import SudokuBoard from '../board';
 import Board from './board';
+import NavHeader from './navheader';
 
 class Game extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      board: new Sudoku.Board()
+      board: new SudokuBoard()
     };
 
     this.updateGame = this.updateGame.bind(this);
@@ -27,7 +28,11 @@ class Game extends React.Component {
   render() {
     return (
       <div>
+        <NavHeader />
         <Board board={this.state.board} updateGame={this.updateGame} />
+        <div className="help-button">
+          ?
+        </div>
       </div>
     );
   }

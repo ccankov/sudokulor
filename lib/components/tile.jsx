@@ -27,35 +27,41 @@ class Tile extends React.Component {
   //   }
   // }
 
-  determineMiniOrder() {
+  determineMiniOrder(mode) {
     let tile = this.props.tile;
-    let colOffset = tile.pos[1] % 3;
-    switch (tile.pos[0] % 3) {
-      case 0:
-        return tile.board.perfectionSquare(colOffset);
-      case 1:
-        return tile.board.perfectionSquare(3 + colOffset);
-      case 2:
-        return tile.board.perfectionSquare(6 + colOffset);
+    if (mode === 'zen') {
+      let colOffset = tile.pos[1] % 3;
+      switch (tile.pos[0] % 3) {
+        case 0:
+          return tile.board.perfectionSquare(colOffset);
+        case 1:
+          return tile.board.perfectionSquare(3 + colOffset);
+        case 2:
+          return tile.board.perfectionSquare(6 + colOffset);
+      }
+    } else {
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
   }
 
   generateMiniTiles() {
     let tile = this.props.tile;
     let vals = tile.possibleVals();
-    let perfectionOrder = this.determineMiniOrder();
+    let perfectionOrder = this.determineMiniOrder('normal');
     let miniTiles = [];
     for (let i = 0; i < perfectionOrder.length; i++) {
+      let className = `mini value-${perfectionOrder[i]}`;
       if (vals.includes(perfectionOrder[i])) {
-        let className = `mini value-${perfectionOrder[i]}`;
         miniTiles.push(
           <div className={className}
                key={perfectionOrder[i]}
                onClick={this.setTile(perfectionOrder[i])}></div>
         );
       } else {
+        className += ' invalid';
         miniTiles.push(
-          <div className='mini value-0' key={perfectionOrder[i]}></div>
+          <div className={className}
+               key={perfectionOrder[i]}></div>
         );
       }
     }
