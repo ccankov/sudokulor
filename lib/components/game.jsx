@@ -76,7 +76,11 @@ class Game extends React.Component {
       let curTile = board.grid[curIdx[0]][curIdx[1]];
       if (curTile.value === 0) {
         tilePossibilities[tileIdx] = curTile.validPossibleVals();
-      } else {
+      } else if (!tilePossibilities[tileIdx]) {
+        this.updateGame(curTile, 0);
+        tilePossibilities[tileIdx] = curTile.validPossibleVals();
+      }
+      else {
         let valIdx = tilePossibilities[tileIdx].indexOf(curTile.value);
         tilePossibilities[tileIdx].splice(valIdx, 1);
         this.updateGame(curTile, 0);

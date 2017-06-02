@@ -1,77 +1,61 @@
-## Sudokulor
+# Sudokulor
+[Live](https://ccankov.github.io/sudokulor/)
 
-### Background
+Sudokulor is a unique take on the classic game Sudoku. While still following the traditional Sudoku rules, Sudokulor boards replace numbers with unique colored tiles that provide a refreshing and visually stunning take on this classic game. It was built using object-oriented JavaScript for the game logic, ReactJS visual components, and CSS for animations and layout.
 
-Sudokulor is a unique take on the classic game Sudoku. While still following the traditional Sudoku rules, Sudokulor boards replace numbers with unique colored tiles that provide a refreshing and visually stunning take on this classic game.
+The entire project was conceived, designed, and completed in a strict 5-day timeframe, with the potential for future enhancement.
 
-The objective of Sudokulor is to complete a valid Sudoku by ensuring that each row, column, and 3 x 3 square has a complete set of the 9 unique colors. The game also includes a "Zen Mode" which starts with a completely blank board and allows players to create beautiful abstract art creations.
+## Technologies
+The base Sudoku game logic was built using JavaScript ES6 syntax and is done using an object-oriented approach. The game logic includes checking for the possible values of each tile, and includes additional logic to check whether rows, columns, and squares are solvable.
 
-### Functionality & MVP  
+The UI is implemented using ReactJS, with highly reusable components for the tiles and the mini-tiles. Automatically solving the Sudoku puzzle is implemented using a backtracking algorithm in the ReactJS UI layer to allow for smooth and responsive rendering of the algorithm logic.
 
-Sudokulor will provide the following functionality to users:
+## Features & Technical Details
+### Responsive UI and CSS Animations
 
-- [X] Fully functional Sudoku game logic
-- [X] Multiple difficulty levels with a large number of preset puzzles
-- [X] Displaying the possible colors for unmarked tiles
-- [X] A highly visual solution algorithm which can solve any Sudoku puzzle
+![UI Elements](docs/screenshots/sudokulor_ui.png)
 
-In addition, this project will include:
+Sudokulor adds a visually stunning element to the classic Sudoku game by replacing numbers with colored tiles. Additionally, empty tiles have been populated with a 3 x 3 grid of mini-tiles which indicate the current possible colors for that grid position.
 
-- [X] An About menu describing the background and rules of the game
-- [X] A production Readme
+Clicking on a mini-tile will select that color in the Sudoku grid, and the grid will automatically update the possible values of other grid positions based on the player's choice. This provides a more intuitive and user-friendly interaction with the game board. Clicking a selected tile will deselect it and update the game board as well.
 
-### Wireframes
+### Solution Algorithm
 
-This app will consist of a single screen with the interactive game board, timer, options and nav links to my Github and LinkedIn profiles, and the About menu which allows the user to control difficulty and auto-solve the puzzle.  The game board itself will have colored tiles with some space between them. There will be visual indicators of the 3x3 squares that are required by the Sudoku rules. Tiles that have not been assigned a color will instead be a 3x3 grid of "mini-tiles" which the user can click to assign a color to the larger tile that is part of the Sudoku grid.
+Sudokulor gives users the options to automatically solve the current puzzle using a backtracking algorithm. The algorithm is implemented in the UI layer in order to visualize the solution logic.
 
-The score will be shown above or below the game board. I also want to show a count of how many times each color pairing occurs. A pairing is defined as two colors being adjacent, meaning each tile can contribute to 4 different pairings.
+While the backtracking algorithm typically constitutes a brute-force approach to solving Sudoku puzzles, Sudokulor uses a custom implementation of the algorithm to give it more foresight and reduce solution time. Instead of trying every possible value for each tile, the algorithm checks whether selecting a particular tile color will render that tile's row, column, and square unsolvable. If so, it chooses a different color instead. This makes the algorithm more efficient than a purely brute-force approach.
 
-The settings and instructions will be in a modal that is only visible when the user clicks on the settings button.
+The following code sample provides insight into the backtracking optimizations that allow each iteration to check whether a 9-tile set is solvable:
 
-![wireframes](docs/wireframes)
+````````javascript
+isSetSolvable(set) {
+  let missingVals = this.getMissingVals(set);
+  let variableTiles = set.filter(tile => tile.value === 0);
+  let tileOptions = variableTiles.map(tile => tile.possibleVals());
+  if (!tileOptions.every(options => options.length > 0)) {
+    return false;
+  }
+  for (let i = 0; i < missingVals.length; i++) {
+    let val = missingVals[i];
+    if (!tileOptions.some(options => options.includes(val))) {
+      return false;
+    }
+  }
+  return true;
+}
+````````
 
-### Architecture and Technologies
+### Zen Mode
+The game includes a "Zen Mode" which is available after completing a Sudoku puzzle. This mode starts with no fixed tiles and allows the user full customization of the game board. While still adhering to the Sudoku rules, this mode allows users to let their creativity flow and create unique art creations from Sudoku's 6.67 x 10^21 possible solution grids.
 
-The underlying game logic will be implemented using vanilla JavaScript by following an object-oriented design pattern. The board elements and user interaction with leverage `ReactJS` to provide a simple and highly performant UI implementation.
+### Object-Oriented Game Logic
 
-In addition to the webpack entry file, there will be three scripts involved in this project:
+The core Sudoku game logic is implemented using an object-oriented approach in JavaScript. The overall game board is contained in a `board.js` script. That script implements a class which tracks the state of the board and handles accessing individual tile sets (rows, columns, squares). It also includes a method to check whether the game board is solved.
 
-`board.js`: this script will handle the logic for keeping track of the entire Sudoku grid including the score and the state of the game (won, incomplete, no valid Sudoku left).
+Managing the values of each tile is done in a separate `tile.js` script. Each tile is aware of its value and has a reference to the overall board. This reference allows tiles to access the other tiles in their row, column, and square in order to return all the possible valid values for that tile.
 
-`tile.js`: this script will handle the logic for each tile. It will track whether its value has been specified, what that value is, and have methods to calculate its possible values when given the entire board.
-
-`puzzle_seeds`: seed puzzles which are transformed to create nearly endless puzzles that are indistinguishable from one another.
-
-### Implementation Timeline
-
-**Day 1**: Setup all necessary Node modules, including getting webpack up and running and either `React.js` or `jQuery`, depending on the technology choice.  Create `webpack.config.js` as well as `package.json`.  Write a basic entry file and the bare bones of all 3 scripts outlined above.  Begin coding the basic Sudoku game logic.  Goals for the day:
-
-- Get a green bundle with `webpack`
-- Good progress through the Sudoku base logic (aim for 50%)
-
-**Day 2**: Finish the basic Sudoku game logic. Then, include logic for calculating what are current valid numbers for each tile that the user has not yet fixed. If there is still time, start to hook up the game logic to the HTML game board.  Goals for the day:
-
-- Have functioning Sudoku logic that checks for game over
-- Implement additional logic to indicate the possible values for each time given the current state of the board
-- Implement the basic visual pieces of the game: tiles and mini-tiles
-
-**Day 3**: Complete the visual layout of the game. This should include both interactive tiles, mini tiles to show the possible values for each unchosen tile and the overall grid layout. Implement the logic of the scoring system, without any visual elements to indicate score.  Goals for the day:
-
-- Have a functional Sudoku board that the user can interact with and modify tiles
-- Have a start on the scoring logic. Be able to calculate a score after every move
-
-
-**Day 4**: Finish the logic and visual elements for the scoring system. Create game start/end logic, and a model menu with instructions and color palette options.  Goals for the day:
-
-- Indicate the current score to the user, and make it intuitive how the score is calculated
-- Have game instructions and a menu. Be able to handle notifying the user when a valid Sudoku is completed, or they are out of possible moves
-- Give options to the user to change colors
-- If time permits: have some sort of visual indicator of which tiles are worth more points
-
-
-### Bonus features
-
-There are other potential ideas for enhancement. Some ideas:
-
-- [X] Fancy CSS animations
-- [ ] Allow users to "reserve" their favorite color combination. This would require a backend
+## Future Improvements
+### Race against the algorithm
+While the backtracking algorithm generally produces solution times that are unbeatable by humans, it is possible to manually slow down the algorithms to give humans a fighting chance. This would allow for a fun mode where the user races to beat the algorithm to finding a solution. Additionally, the algorithm's best-case time complexity is O(n) while its worst-case time complexity is O(n^9) which makes for a wide range of possible solution times.
+### Migration to a ReactNative app
+The Sudokulor UI is implemented to be responsive and mobile-friendly. Additionally, since the UI layer is implented using `ReactJS`, the application can be converted to a mobile application using `ReactNative`.

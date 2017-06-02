@@ -10232,6 +10232,9 @@ var Game = function (_React$Component) {
         var curTile = board.grid[curIdx[0]][curIdx[1]];
         if (curTile.value === 0) {
           tilePossibilities[tileIdx] = curTile.validPossibleVals();
+        } else if (!tilePossibilities[tileIdx]) {
+          _this2.updateGame(curTile, 0);
+          tilePossibilities[tileIdx] = curTile.validPossibleVals();
         } else {
           var valIdx = tilePossibilities[tileIdx].indexOf(curTile.value);
           tilePossibilities[tileIdx].splice(valIdx, 1);
