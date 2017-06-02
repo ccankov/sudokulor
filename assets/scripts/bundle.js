@@ -10325,9 +10325,31 @@ var Game = function (_React$Component) {
               setTime: this.setTime }),
             _react2.default.createElement(
               'div',
-              { className: 'help-button',
-                onClick: this.toggleMenu },
-              buttonText
+              { className: 'button-holder' },
+              _react2.default.createElement(
+                'div',
+                { className: 'nav-button-in' },
+                _react2.default.createElement(
+                  'a',
+                  { target: '_blank', href: 'https://www.linkedin.com/in/cvetomir-chris-cankov/' },
+                  _react2.default.createElement('i', { className: 'fa fa-linkedin', 'aria-hidden': 'true' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'nav-button' },
+                _react2.default.createElement(
+                  'a',
+                  { target: '_blank', href: 'https://github.com/ccankov' },
+                  _react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'help-button',
+                  onClick: this.toggleMenu },
+                buttonText
+              )
             ),
             _react2.default.createElement(_menu2.default, { show: this.state.showMenu,
               changeDifficulty: this.newGame,

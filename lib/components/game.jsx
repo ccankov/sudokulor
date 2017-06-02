@@ -138,9 +138,21 @@ class Game extends React.Component {
               start={ this.state.startTime }
               board={ this.state.board }
               setTime={ this.setTime } />
-            <div className="help-button"
-              onClick={ this.toggleMenu }>
-              { buttonText }
+            <div className='button-holder'>
+              <div className='nav-button-in'>
+                <a target='_blank' href="https://www.linkedin.com/in/cvetomir-chris-cankov/">
+                  <i className="fa fa-linkedin" aria-hidden="true"></i>
+                </a>
+              </div>
+              <div className='nav-button'>
+                <a target='_blank' href="https://github.com/ccankov">
+                  <i className="fa fa-github" aria-hidden="true"></i>
+                </a>
+              </div>
+              <div className="help-button"
+                onClick={ this.toggleMenu }>
+                { buttonText }
+              </div>
             </div>
             <Menu show={ this.state.showMenu }
               changeDifficulty= { this.newGame }
