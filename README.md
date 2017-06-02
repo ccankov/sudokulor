@@ -1,4 +1,7 @@
 # Sudokulor
+
+![UI Elements](docs/screenshots/sudokulor_ui.png)
+
 [Live](https://ccankov.github.io/sudokulor/)
 
 Sudokulor is a unique take on the classic game Sudoku. While still following the traditional Sudoku rules, Sudokulor boards replace numbers with unique colored tiles that provide a refreshing and visually stunning take on this classic game. It was built using object-oriented JavaScript for the game logic, ReactJS visual components, and CSS for animations and layout.
@@ -12,8 +15,6 @@ The UI is implemented using ReactJS, with highly reusable components for the til
 
 ## Features & Technical Details
 ### Responsive UI and CSS Animations
-
-![UI Elements](docs/screenshots/sudokulor_ui.png)
 
 Sudokulor adds a visually stunning element to the classic Sudoku game by replacing numbers with colored tiles. Additionally, empty tiles have been populated with a 3 x 3 grid of mini-tiles which indicate the current possible colors for that grid position.
 
