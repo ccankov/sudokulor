@@ -5,10 +5,16 @@ class Menu extends React.Component {
     super(props);
 
     this.changeDifficulty = this.changeDifficulty.bind(this);
+    this.handleSolve = this.handleSolve.bind(this);
   }
 
   changeDifficulty(e) {
     this.props.changeDifficulty(e.target.value);
+  }
+
+  handleSolve(e) {
+    e.preventDefault();
+    this.props.solveSudoku()();
   }
 
   render() {
@@ -31,6 +37,9 @@ class Menu extends React.Component {
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
             </select>
+          </li>
+          <li>
+            <button onClick={this.handleSolve}>Solve Sudoku!</button>
           </li>
         </ul>
       </menu>

@@ -3,6 +3,7 @@ import SudokuBoard from '../board';
 import Board from './board';
 import NavHeader from './navheader';
 import Menu from './menu';
+import Timer from './timer';
 
 class Game extends React.Component {
   constructor(props) {
@@ -13,7 +14,9 @@ class Game extends React.Component {
     this.state = {
       difficulty: 'medium',
       mode: 'normal',
+      time: '',
       board: newBoard,
+      startTime: Date.now(),
       showMenu: false,
       fixedTiles: newBoard.grid.map(row => row.map(tile => tile.value))
     };
@@ -23,6 +26,8 @@ class Game extends React.Component {
     this.newGame = this.newGame.bind(this);
     this.handleNewGame = this.handleNewGame.bind(this);
     this.handleZenMode = this.handleZenMode.bind(this);
+    this.solveSudoku = this.solveSudoku.bind(this);
+    this.setTime = this.setTime.bind(this);
   }
 
   toggleMenu() {
@@ -35,7 +40,9 @@ class Game extends React.Component {
     this.setState({
       difficulty,
       board: newBoard,
+      time: '',
       mode,
+      startTime: Date.now(),
       fixedTiles: newBoard.grid.map(row => row.map(tile => tile.value))
     });
   }
@@ -61,6 +68,37 @@ class Game extends React.Component {
     this.newGame('medium', 'zen');
   }
 
+  solveSudoku(tileIdx = 0, tilePossibilities = []) {
+    return () => {
+      let board = this.state.board;
+      let varTiles = this.state.board.variableTiles;
+      let curIdx = varTiles[tileIdx];
+      let curTile = board.grid[curIdx[0]][curIdx[1]];
+      if (curTile.value === 0) {
+        tilePossibilities[tileIdx] = curTile.validPossibleVals();
+      } else {
+        let valIdx = tilePossibilities[tileIdx].indexOf(curTile.value);
+        tilePossibilities[tileIdx].splice(valIdx, 1);
+        this.updateGame(curTile, 0);
+      }
+      let vals = tilePossibilities[tileIdx];
+      if (vals.length > 0) {
+        let val = vals[Math.floor(Math.random() * vals.length)];
+        tileIdx += 1;
+        this.updateGame(curTile, val);
+      } else {
+        tileIdx -= 1;
+      }
+      if (!board.boardSolved()) {
+        setTimeout(this.solveSudoku(tileIdx, tilePossibilities), 0);
+      }
+    };
+  }
+
+  setTime(time) {
+    this.setState({ time });
+  }
+
   render() {
     let buttonText = '?';
     if (this.state.showMenu) {
@@ -78,6 +116,7 @@ class Game extends React.Component {
         <div className={wonBackdropClass}>
           <div className={wonBannerClass} >
             <p>Congratulations, you win!</p>
+            <p className='timeText'>Time: { this.state.time }</p>
             <div className="rowButtons">
               <button onClick={ this.handleNewGame }>New Game</button>
               <button onClick={ this.handleZenMode }>Zen Mode</button>
@@ -89,13 +128,22 @@ class Game extends React.Component {
           fixedTiles={this.state.fixedTiles}
           updateGame={this.updateGame}
           mode={this.state.mode} />
-        <div className="help-button"
-             onClick={ this.toggleMenu }>
-             { buttonText }
-        </div>
-        <Menu show={ this.state.showMenu }
+        <div className="infoFooter">
+          <div className="separator">
+            <Timer
+              start={ this.state.startTime }
+              board={ this.state.board }
+              setTime={ this.setTime } />
+            <div className="help-button"
+              onClick={ this.toggleMenu }>
+              { buttonText }
+            </div>
+            <Menu show={ this.state.showMenu }
               changeDifficulty= { this.newGame }
-              difficulty={ this.state.difficulty }/>
+              difficulty={ this.state.difficulty }
+              solveSudoku={ this.solveSudoku } />
+          </div>
+        </div>
       </div>
     );
   }
