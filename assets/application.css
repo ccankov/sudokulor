@@ -37,14 +37,73 @@ h1 {
   color: white;
 }
 
-.optionsMenu {
-  position: absolute;
-  bottom: 30px;
-  right: 100px;
+.infoFooter {
+  z-index: 7;
+  position: fixed;
+  height: 60px;
+  top: 0;
+  width: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.separator {
+  position: relative;
+  height: 50px;
+  width: 90%;
+  min-width: 425px;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timer {
+  height: 50px;
+  border-radius: 25px;
+  padding: 0 30px;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
   background-color: white;
-  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #F9423A;
+  font-weight: bold;
+  font-size: 1.5em;
+  font-family: 'Iceland', cursive;
+}
+
+.timeText {
+  font-size: 0.8em;
+}
+
+.help-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #F9423A;
+  font-weight: bold;
+  font-size: 2em;
+  font-family: 'Iceland', cursive;
+}
+
+.optionsMenu {
+  z-index: 6;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: white;
+  width: 300px;
   height: 0px;
-  margin-top: 400px;
   visibility: hidden;
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
@@ -59,6 +118,7 @@ h1 {
 .menuList {
   height: 100%;
   display: flex;
+  justify-content: space-around;
   flex-direction: column;
   align-items: stretch;
   color: black;
@@ -71,6 +131,23 @@ h1 {
   padding: 20px;
   display: flex;
   justify-content: space-between;
+}
+
+.menuList li button {
+  border-radius: 5px;
+  border: 2px solid #F9423A;
+  color: #F9423A;
+  margin: 0px 20px;
+  padding: 10px 20px;
+}
+
+.menuList li button:hover {
+  background-color: #F9423A;
+  color: white;
+}
+
+.menuList li:last-child {
+  justify-content: center;
 }
 
 .victoryBackdrop {
@@ -114,12 +191,13 @@ h1 {
 }
 
 .shown {
-  margin-top: 0px;
-  height: 400px;
+  height: 300px;
   visibility: visible;
 }
 
 .board {
+  position: relative;
+  z-index: 4;
   padding: 1%;
   width: 90%;
   min-width: 325px;
@@ -241,24 +319,6 @@ h1 {
 .fixed:hover {
   cursor: default;
   box-shadow: none;
-}
-
-.help-button {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
-  background-color: #F9423A;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  font-size: 2em;
-  font-family: 'Iceland', cursive;
 }
 
 .help-button:hover {
