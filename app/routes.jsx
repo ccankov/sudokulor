@@ -1,7 +1,6 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
-import { fetchVoteData } from './fetch-data';
-import Game from './components/game';
+import { Route } from 'react-router';
+import { App } from './pages';
 
 /*
  * @param {Redux Store}
@@ -30,6 +29,6 @@ export default (store) => {
     callback();
   };
   return (
-    <Route path="/" component={Game}></Route>
+    <Route path="/" component={App} />
   );
 };
