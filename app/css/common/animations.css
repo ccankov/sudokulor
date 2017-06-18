@@ -1,0 +1,26 @@
+@keyframes fall {
+	0% {
+		transform: none;
+	}
+
+  25% {
+    transform: rotate(30deg);
+    top: 300px;
+  }
+
+  50% {
+    transform: rotate(30deg);
+    top: 600px;
+  }
+
+  75% {
+    transform: rotate(30deg);
+    top: 900px;
+  }
+
+  100% {
+    transform: rotate(30deg);
+    top: 1200px;
+  }
+
+}

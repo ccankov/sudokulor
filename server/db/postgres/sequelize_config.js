@@ -1,15 +1,15 @@
 module.exports = {
   development: {
-    username: process.env.PGUSER || 'root',
+    username: process.env.PGUSER || 'chris',
     password: null,
-    database: 'react_webpack_node_development',
+    database: 'sudokulor-dev',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
   test: {
-    username: process.env.PGUSER || 'root',
+    username: process.env.PGUSER || 'chris',
     password: null,
-    database: 'react_webpack_node_test',
+    database: 'sudokulor-test',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
