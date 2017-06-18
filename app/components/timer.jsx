@@ -1,4 +1,8 @@
 import React from 'react';
+import classNames from 'classnames/bind';
+import styles from '../css/main.css';
+
+const cx = classNames.bind(styles);
 
 class Timer extends React.Component {
   constructor(props) {
@@ -42,7 +46,7 @@ class Timer extends React.Component {
   render() {
     let elapsedTime = this.getTime();
     return (
-      <div className="timer">
+      <div className={cx("timer")}>
         { elapsedTime }
       </div>
     );

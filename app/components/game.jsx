@@ -1,15 +1,19 @@
 import React from 'react';
+import classNames from 'classnames/bind';
 import SudokuBoard from '../board';
 import Board from './board';
 import NavHeader from './navheader';
 import Menu from './menu';
 import Timer from './timer';
+import styles from '../css/main.css';
+
+const cx = classNames.bind(styles);
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
 
-    let newBoard = new SudokuBoard('normal', 'medium');
+    const newBoard = new SudokuBoard('normal', 'medium');
 
     this.state = {
       difficulty: 'medium',
@@ -108,11 +112,11 @@ class Game extends React.Component {
     if (this.state.showMenu) {
       buttonText = 'X';
     }
-    let wonBackdropClass = 'victoryBackdrop';
-    let wonBannerClass = 'victoryBanner';
+    let wonBackdropClass = cx('victoryBackdrop');
+    let wonBannerClass = cx('victoryBanner');
     if (this.state.board.boardSolved()) {
-      wonBackdropClass += ' visible';
-      wonBannerClass += ' visible';
+      wonBackdropClass = cx('victoryBackdrop', 'visible');
+      wonBannerClass = cx('victoryBanner', 'visible');
     }
     return (
       <div>
@@ -120,10 +124,10 @@ class Game extends React.Component {
         <div className={wonBackdropClass}>
           <div className={wonBannerClass} >
             <p>Congratulations, you win!</p>
-            <p className='timeText'>Time: { this.state.time }</p>
-            <div className="rowButtons">
-              <button onClick={ this.handleNewGame }>New Game</button>
-              <button onClick={ this.handleZenMode }>Zen Mode</button>
+            <p className={cx('timeText')}>Time: { this.state.time }</p>
+            <div className={cx('rowButtons')}>
+              <button onClick={this.handleNewGame}>New Game</button>
+              <button onClick={this.handleZenMode}>Zen Mode</button>
             </div>
           </div>
         </div>
@@ -132,24 +136,27 @@ class Game extends React.Component {
           fixedTiles={this.state.fixedTiles}
           updateGame={this.updateGame}
           mode={this.state.mode} />
-        <div className="infoFooter">
-          <div className="separator">
+        <div className={cx('infoFooter')}>
+          <div className={cx('separator')}>
             <Timer
-              start={ this.state.startTime }
-              board={ this.state.board }
-              setTime={ this.setTime } />
-            <div className='button-holder'>
-              <div className='nav-button-in'>
-                <a target='_blank' href="https://www.linkedin.com/in/cvetomir-chris-cankov/">
-                  <i className="fa fa-linkedin" aria-hidden="true"></i>
+              start={this.state.startTime}
+              board={this.state.board}
+              setTime={this.setTime} />
+            <div className={cx('button-holder')}>
+              <div className={cx('nav-button-in')}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.linkedin.com/in/cvetomir-chris-cankov/">
+                  <i className={cx('fa', 'fa-linkedin')} aria-hidden="true" />
                 </a>
               </div>
-              <div className='nav-button'>
+              <div className={cx('nav-button')}>
                 <a target='_blank' href="https://github.com/ccankov">
-                  <i className="fa fa-github" aria-hidden="true"></i>
+                  <i className={cx("fa fa-github")} aria-hidden="true"></i>
                 </a>
               </div>
-              <div className="help-button"
+              <div className={cx("help-button")}
                 onClick={ this.toggleMenu }>
                 { buttonText }
               </div>

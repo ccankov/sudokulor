@@ -1,4 +1,8 @@
 import React from 'react';
+import classNames from 'classnames/bind';
+import styles from '../css/main.css';
+
+const cx = classNames.bind(styles);
 
 class Tile extends React.Component {
   constructor(props) {
@@ -50,7 +54,7 @@ class Tile extends React.Component {
     let perfectionOrder = this.determineMiniOrder(this.props.mode);
     let miniTiles = [];
     for (let i = 0; i < perfectionOrder.length; i++) {
-      let className = `mini value-${perfectionOrder[i]}`;
+      let className = cx('mini', `value-${perfectionOrder[i]}`);
       if (vals.includes(perfectionOrder[i])) {
         miniTiles.push(
           <div className={className}
@@ -58,7 +62,7 @@ class Tile extends React.Component {
                onClick={this.setTile(perfectionOrder[i])}></div>
         );
       } else {
-        className += ' invalid';
+        className = cx(`mini`, `value-${perfectionOrder[i]}`, `invalid`);
         miniTiles.push(
           <div className={className}
                key={perfectionOrder[i]}></div>
@@ -70,17 +74,17 @@ class Tile extends React.Component {
 
   render() {
     let tile = this.props.tile;
-    let className = `tile value-${tile.value}`;
+    let className = cx(`tile`, `value-${tile.value}`);
     if (tile.value === 0) {
       return (
         <div className={className}>
-          <div className="absolute_container">
+          <div className={cx("absolute_container")}>
             {this.generateMiniTiles()}
           </div>
         </div>
       );
     } else if (this.props.fixed) {
-      className += ' fixed';
+      className = cx(`tile`, `value-${tile.value}`, `fixed`);
       return (
         <div className={className} ></div>
       );

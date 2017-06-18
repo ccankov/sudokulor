@@ -1,4 +1,9 @@
 import React from 'react';
+import classNames from 'classnames/bind';
+import styles from '../css/main.css';
+
+const cx = classNames.bind(styles);
+
 
 class Menu extends React.Component {
   constructor(props) {
@@ -18,21 +23,22 @@ class Menu extends React.Component {
   }
 
   render() {
-    let className = 'optionsMenu';
+    let className = cx('optionsMenu');
     if (this.props.show) {
-      className += ' shown';
+      className = cx('optionsMenu', 'shown');
     }
     return (
-      <menu className={ className }>
-        <ul className="menuList">
+      <menu className={className}>
+        <ul className={cx('menuList')}>
           <li>
             Complete the grid by ensuring there are no duplicate colors in each
             row, column, and 3 x 3 square.
           </li>
           <li>
             <label>Difficulty</label>
-            <select onChange={ this.changeDifficulty }
-                    value={ this.props.difficulty } >
+            <select
+              onChange={this.changeDifficulty}
+              value={this.props.difficulty} >
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>

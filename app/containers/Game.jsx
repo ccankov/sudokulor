@@ -1,17 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames/bind';
 import Game from '../components/game';
-import styles from '../css/components/game.css';
-
-const cx = classNames.bind(styles);
 
 const GameContainer = () => {
-    return (
-      <div className={cx('game')}>
-        <Game />
-      </div>
-    );
+  return (
+    <Game />
+  );
 };
 
 function mapStateToProps(state) {
