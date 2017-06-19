@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route } from 'react-router';
-import { App } from './pages';
+import { Route, IndexRoute } from 'react-router';
+import { App, Game, LoginOrRegister } from './pages';
 
 /*
  * @param {Redux Store}
@@ -29,6 +29,9 @@ export default (store) => {
     callback();
   };
   return (
-    <Route path="/" component={App} />
+    <Route path="/" component={App}>
+      <IndexRoute component={Game} />
+      <Route path="login" component={LoginOrRegister} onEnter={redirectAuth} />
+    </Route>
   );
 };

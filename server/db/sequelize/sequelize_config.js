@@ -1,5 +1,5 @@
-import { DB_TYPE } from '../../../config/env';
-import { DB_TYPES } from '../../../config/dbTypes';
+const DB_TYPE = require('../../../config/env').DB_TYPE;
+const DB_TYPES = require('../../../config/dbTypes');
 
 switch (DB_TYPE) {
   case DB_TYPES.POSTGRES:
