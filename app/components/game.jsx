@@ -7,6 +7,10 @@ import Menu from './menu';
 import Timer from './timer';
 import styles from '../css/main.css';
 
+// TODO: Delete
+import * as DancingLinks from '../utils/sudoku/dancingLinks';
+global.DancingLinks = DancingLinks;
+
 const cx = classNames.bind(styles);
 
 class Game extends React.Component {
