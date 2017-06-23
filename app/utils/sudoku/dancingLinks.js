@@ -140,6 +140,20 @@ export class ToroidalLinkedList {
     }
   }
 
+  coverIndex(index) {
+    let rowNode;
+    let counter = 0;
+    const row = this.matrix[index];
+    while (!rowNode) {
+      rowNode = row[counter];
+      counter += 1;
+    }
+    this.cover(rowNode.column);
+    for (let r = rowNode.right; r !== rowNode; r = r.right) {
+      this.cover(r.column);
+    }
+  }
+
   uncover(columnNode) {
     for (let row = columnNode.up; row !== columnNode; row = row.up) {
       for (let left = row.left; left !== row; left = left.left) {

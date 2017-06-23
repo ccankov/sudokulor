@@ -53,16 +53,17 @@ class sudokuExactCoverHelper {
     this.sudoku = sudokuBoard.valGrid();
     this.sudokuBoard = sudokuBoard;
     this.buildExactCoverMatrix();
-    this.coverGivenVals();
     this.dancingLinks = new DancingLinks.ToroidalLinkedList(
       this.exactCoverMatrix
     );
+    this.coverGivenVals();
     this.dancingLinks.dancingLinks();
     this.buildSolution();
   }
 
   addNumber(val, row, col) {
     const index = getIndex(val, row, col);
+    this.dancingLinks.coverIndex(index);
   }
 
   buildExactCoverMatrix() {
@@ -95,7 +96,9 @@ class sudokuExactCoverHelper {
   coverGivenVals() {
     this.sudoku.forEach((row, rowIdx) => (
       row.forEach((val, colIdx) => {
-        this.addNumber(val - 1, rowIdx, colIdx);
+        if (val > 0) {
+          this.addNumber(val - 1, rowIdx, colIdx);
+        }
       })
     ));
   }

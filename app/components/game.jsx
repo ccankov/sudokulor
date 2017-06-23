@@ -47,6 +47,7 @@ class Game extends React.Component {
       difficulty,
       board: newBoard,
       time: '',
+      solver: new ExactCoverHelper(newBoard),
       mode,
       startTime: Date.now(),
       fixedTiles: newBoard.grid.map(row => row.map(tile => tile.value))
