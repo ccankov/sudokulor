@@ -6,12 +6,13 @@ const nullConnections = {
 };
 
 export class Node {
-  constructor({ upNode, rightNode, downNode, leftNode, columnNode }) {
+  constructor({ upNode, rightNode, downNode, leftNode, columnNode, pos }) {
     this.up = upNode;
     this.right = rightNode;
     this.down = downNode;
     this.left = leftNode;
     this.column = columnNode;
+    this.pos = pos;
   }
 
   removeFromList() {
@@ -66,9 +67,14 @@ export class ToroidalLinkedList {
   }
 
   initializeMatrixNodes(matrix) {
-    this.matrix = matrix.map(row => (
+    this.matrix = matrix.map((row, rowIdx) => (
       row.map((val, colIdx) => (
-        this.valToNode(val, colIdx)
+        this.valToNode(val, [rowIdx, colIdx])
+      ))
+    ));
+    this.solution = matrix.map(row => (
+      row.map(() => (
+        false
       ))
     ));
   }
@@ -90,7 +96,7 @@ export class ToroidalLinkedList {
     const last = rowArray[rowArray.length - 1];
     first.left = last;
     last.right = first;
-    for (let i = 1; i < rowArray.length; i++) {
+    for (let i = 1; i < rowArray.length; i += 1) {
       const thisNode = rowArray[i];
       const prevNode = rowArray[i - 1];
       prevNode.right = thisNode;
@@ -106,7 +112,7 @@ export class ToroidalLinkedList {
     last.down = columnNode;
     columnNode.up = last;
     columnNode.down = first;
-    for (let i = 1; i < colArray.length; i++) {
+    for (let i = 1; i < colArray.length; i += 1) {
       const thisNode = colArray[i];
       const prevNode = colArray[i - 1];
       prevNode.down = thisNode;
@@ -114,11 +120,75 @@ export class ToroidalLinkedList {
     }
   }
 
-  valToNode(val, colIdx) {
+  valToNode(val, pos) {
     if (val === 1) {
-      const columnNode = this.columnNodes[colIdx];
-      return new Node({ columnNode });
+      const columnNode = this.columnNodes[pos[1]];
+      columnNode.columnSize += 1;
+      return new Node({ columnNode, pos });
     }
     return null;
+  }
+
+  cover(columnNode) {
+    columnNode.right.left = columnNode.left;
+    columnNode.left.right = columnNode.right;
+
+    for (let row = columnNode.down; row !== columnNode; row = row.down) {
+      for (let right = row.right; right !== row; right = right.right) {
+        debugger;
+        right.up.down = right.down;
+        right.down.up = right.up;
+        if (right.column) {
+          right.column.columnSize -= 1;
+        }
+      }
+    }
+  }
+
+  uncover(columnNode) {
+    for (let row = columnNode.up; row !== columnNode; row = row.up) {
+      for (let left = row.left; left !== row; left = left.left) {
+        debugger;
+        left.up.down = left;
+        left.down.up = left;
+        if (left.column) {
+          left.column.columnSize += 1;
+        }
+      }
+    }
+
+    columnNode.right.left = columnNode;
+    columnNode.left.right = columnNode;
+  }
+
+  dancingLinks() {
+    if (this.h.right === this.h) {
+      return true;
+    }
+    let curColumn = this.h.right;
+    this.cover(curColumn);
+
+    for (let row = curColumn.down; row !== curColumn; row = row.down) {
+      this.solution[row.pos[0]][row.pos[1]] = true;
+
+      for (let right = row.right; right !== row; right = right.right) {
+        this.cover(right.column);
+      }
+
+      const done = this.dancingLinks();
+      if (done) {
+        return true;
+      }
+
+      this.solution[row.pos[0]][row.pos[1]] = false;
+      curColumn = row.column;
+
+      for (let left = row.left; left !== row; left = left.left) {
+        this.uncover(left.column);
+      }
+    }
+
+    this.uncover(curColumn);
+    return false;
   }
 }
