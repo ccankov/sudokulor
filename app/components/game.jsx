@@ -6,10 +6,7 @@ import NavHeader from './navheader';
 import Menu from './menu';
 import Timer from './timer';
 import styles from '../css/main.css';
-
-// TODO: Delete
-import * as DancingLinks from '../utils/sudoku/dancingLinks';
-global.DancingLinks = DancingLinks;
+import ExactCoverHelper from '../utils/sudoku/sudokuExactCoverHelper';
 
 const cx = classNames.bind(styles);
 
@@ -24,6 +21,7 @@ class Game extends React.Component {
       mode: 'normal',
       time: '',
       board: newBoard,
+      solver: new ExactCoverHelper(newBoard),
       startTime: Date.now(),
       showMenu: false,
       fixedTiles: newBoard.grid.map(row => row.map(tile => tile.value))
@@ -39,12 +37,12 @@ class Game extends React.Component {
   }
 
   toggleMenu() {
-    let currentState = this.state.showMenu;
+    const currentState = this.state.showMenu;
     this.setState({ showMenu: !currentState });
   }
 
   newGame(difficulty = 'medium', mode = 'normal') {
-    let newBoard = new SudokuBoard(mode, difficulty);
+    const newBoard = new SudokuBoard(mode, difficulty);
     this.setState({
       difficulty,
       board: newBoard,
@@ -55,15 +53,28 @@ class Game extends React.Component {
     });
   }
 
+  solveSudoku(i = 0) {
+    return () => {
+      const solnArr = this.state.solver.solution;
+      if (i < solnArr.length) {
+        const pos = solnArr[i];
+        const tile = this.state.board.grid[pos[1]][pos[2]];
+        this.updateGame(tile, pos[0] + 1);
+        setTimeout(this.solveSudoku(i + 1), 0);
+      }
+    };
+  }
+
   updateGame(tile, value) {
-    let numVal = parseInt(value);
-    if (numVal >= 0 && numVal <= 9) {
-      tile.value = numVal;
-      tile.given = true;
+    if (!tile.given) {
+      let numVal = parseInt(value);
+      if (numVal >= 0 && numVal <= 9) {
+        tile.value = numVal;
+      }
+      this.setState({
+        board: this.state.board
+      });
     }
-    this.setState({
-      board: this.state.board
-    });
   }
 
   handleNewGame(e) {
@@ -74,37 +85,6 @@ class Game extends React.Component {
   handleZenMode(e) {
     e.preventDefault();
     this.newGame('medium', 'zen');
-  }
-
-  solveSudoku(tileIdx = 0, tilePossibilities = []) {
-    return () => {
-      let board = this.state.board;
-      let varTiles = this.state.board.variableTiles;
-      let curIdx = varTiles[tileIdx];
-      let curTile = board.grid[curIdx[0]][curIdx[1]];
-      if (curTile.value === 0) {
-        tilePossibilities[tileIdx] = curTile.validPossibleVals();
-      } else if (!tilePossibilities[tileIdx]) {
-        this.updateGame(curTile, 0);
-        tilePossibilities[tileIdx] = curTile.validPossibleVals();
-      }
-      else {
-        let valIdx = tilePossibilities[tileIdx].indexOf(curTile.value);
-        tilePossibilities[tileIdx].splice(valIdx, 1);
-        this.updateGame(curTile, 0);
-      }
-      let vals = tilePossibilities[tileIdx];
-      if (vals.length > 0) {
-        let val = vals[Math.floor(Math.random() * vals.length)];
-        tileIdx += 1;
-        this.updateGame(curTile, val);
-      } else {
-        tileIdx -= 1;
-      }
-      if (!board.boardSolved()) {
-        setTimeout(this.solveSudoku(tileIdx, tilePossibilities), 0);
-      }
-    };
   }
 
   setTime(time) {

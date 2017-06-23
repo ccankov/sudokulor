@@ -8,16 +8,16 @@ class Board {
     if (mode === 'zen') {
       this.generateBoard();
     } else {
-      let randomBoard = this.getRandomBoard(difficulty);
+      const randomBoard = this.getRandomBoard(difficulty);
       this.generateBoard(randomBoard);
     }
   }
 
   perfectionSquare(idx) {
-    let perfection = this.perfection405();
-    let square = [];
-    let x = Math.floor(idx / 3) * 3;
-    let y = (idx % 3) * 3;
+    const perfection = this.perfection405();
+    const square = [];
+    const x = Math.floor(idx / 3) * 3;
+    const y = (idx % 3) * 3;
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         square.push(perfection[x + i][y + j]);
@@ -97,6 +97,8 @@ class Board {
           this.grid[i].push(tile);
           if (tile.value === 0) {
             this.variableTiles.push(tile.pos);
+          } else {
+            tile.given = true;
           }
         }
       }
@@ -198,6 +200,14 @@ class Board {
       }
     }
     return true;
+  }
+
+  valGrid() {
+    return this.grid.map(row => (
+      row.map(tile => (
+        tile.value === 0 ? null : tile.value
+      ))
+    ));
   }
 
   areSetsSolvable(sets) {

@@ -36,6 +36,7 @@ export class ColumnNode extends Node {
 
 export class ToroidalLinkedList {
   constructor(matrix) {
+    this.solution = {};
     this.initializeList(matrix);
   }
 
@@ -70,11 +71,6 @@ export class ToroidalLinkedList {
     this.matrix = matrix.map((row, rowIdx) => (
       row.map((val, colIdx) => (
         this.valToNode(val, [rowIdx, colIdx])
-      ))
-    ));
-    this.solution = matrix.map(row => (
-      row.map(() => (
-        false
       ))
     ));
   }
@@ -135,7 +131,6 @@ export class ToroidalLinkedList {
 
     for (let row = columnNode.down; row !== columnNode; row = row.down) {
       for (let right = row.right; right !== row; right = right.right) {
-        debugger;
         right.up.down = right.down;
         right.down.up = right.up;
         if (right.column) {
@@ -148,7 +143,6 @@ export class ToroidalLinkedList {
   uncover(columnNode) {
     for (let row = columnNode.up; row !== columnNode; row = row.up) {
       for (let left = row.left; left !== row; left = left.left) {
-        debugger;
         left.up.down = left;
         left.down.up = left;
         if (left.column) {
@@ -169,7 +163,7 @@ export class ToroidalLinkedList {
     this.cover(curColumn);
 
     for (let row = curColumn.down; row !== curColumn; row = row.down) {
-      this.solution[row.pos[0]][row.pos[1]] = true;
+      this.solution[row.pos.join('')] = { pos: row.pos, node: row };
 
       for (let right = row.right; right !== row; right = right.right) {
         this.cover(right.column);
@@ -180,7 +174,7 @@ export class ToroidalLinkedList {
         return true;
       }
 
-      this.solution[row.pos[0]][row.pos[1]] = false;
+      delete this.solution[row.pos.join('')];
       curColumn = row.column;
 
       for (let left = row.left; left !== row; left = left.left) {
