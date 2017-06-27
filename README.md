@@ -22,9 +22,9 @@ Clicking on a mini-tile will select that color in the Sudoku grid, and the grid 
 
 ### Solution Algorithm
 
-Sudokulor gives users the options to automatically solve the current puzzle using a backtracking algorithm. The algorithm is implemented in the UI layer in order to visualize the solution logic.
+Sudokulor gives users the options to automatically solve the current puzzle using an efficient dancing links algorithm. Sudoku puzzles are solved within milliseconds of being generated, and the solution set is a chronological set of moves that lead to a valid solution. When the player chooses to solve the puzzle, the application uses non-blocking calls to visualize the step-by-step solution produced by the algorithm.
 
-While the backtracking algorithm typically constitutes a brute-force approach to solving Sudoku puzzles, Sudokulor uses a custom implementation of the algorithm to give it more foresight and reduce solution time. Instead of trying every possible value for each tile, the algorithm checks whether selecting a particular tile color will render that tile's row, column, and square unsolvable. If so, it chooses a different color instead. This makes the algorithm more efficient than a purely brute-force approach.
+The dancing links algorithm uses a torroidal linked list data structure to solve an exact cover problem which can be used to represent the constraints of a valid Sudoku puzzle.
 
 The following code sample provides insight into the backtracking optimizations that allow each iteration to check whether a 9-tile set is solvable:
 
