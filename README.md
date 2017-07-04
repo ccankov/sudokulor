@@ -24,25 +24,40 @@ Clicking on a mini-tile will select that color in the Sudoku grid, and the grid 
 
 Sudokulor gives users the options to automatically solve the current puzzle using an efficient dancing links algorithm. Sudoku puzzles are solved within milliseconds of being generated, and the solution set is a chronological set of moves that lead to a valid solution. When the player chooses to solve the puzzle, the application uses non-blocking calls to visualize the step-by-step solution produced by the algorithm.
 
-The dancing links algorithm uses a torroidal linked list data structure to solve an exact cover problem which can be used to represent the constraints of a valid Sudoku puzzle.
+The dancing links algorithm uses a torroidal linked list data structure to solve an exact cover problem which can be used to represent the constraints of a valid Sudoku puzzle. The general approach to solving the algorithm involves covering one column at a time by removing links to it from uncovered columns. If all columns can be covered in a particular order, then the rows of the first covered column represent a valid solution to the puzzle. If all columns cannot be covered, the algorithm can efficiently backtrack and try another solution.
 
-The following code sample provides insight into the backtracking optimizations that allow each iteration to check whether a 9-tile set is solvable:
+The following code sample provides insight into the dancing links algorithm which provides a solution to the Sudoku puzzle, as represented by an exact cover matrix:
 
 ````````javascript
-isSetSolvable(set) {
-  let missingVals = this.getMissingVals(set);
-  let variableTiles = set.filter(tile => tile.value === 0);
-  let tileOptions = variableTiles.map(tile => tile.possibleVals());
-  if (!tileOptions.every(options => options.length > 0)) {
-    return false;
+dancingLinks() {
+  if (this.h.right === this.h) {
+    return true;
   }
-  for (let i = 0; i < missingVals.length; i++) {
-    let val = missingVals[i];
-    if (!tileOptions.some(options => options.includes(val))) {
-      return false;
+  let curColumn = this.h.right;
+  this.cover(curColumn);
+
+  for (let row = curColumn.down; row !== curColumn; row = row.down) {
+    this.solution[row.pos.join('')] = { pos: row.pos, node: row };
+
+    for (let right = row.right; right !== row; right = right.right) {
+      this.cover(right.column);
+    }
+
+    const done = this.dancingLinks();
+    if (done) {
+      return true;
+    }
+
+    delete this.solution[row.pos.join('')];
+    curColumn = row.column;
+
+    for (let left = row.left; left !== row; left = left.left) {
+      this.uncover(left.column);
     }
   }
-  return true;
+
+  this.uncover(curColumn);
+  return false;
 }
 ````````
 
